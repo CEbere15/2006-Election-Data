@@ -7,4 +7,11 @@ This data project was made with the goal of gaining insights into the performanc
 
 ### Data Sources
 
-Nominee Data: The primary dataset 
+Nominee Data: The primary dataset used for the analysis is in the '2006_nominees.csv' file, which has all the nominees for the congressional elections 
+
+
+```sql
+SELECT state, race, SUM(votes) as total_votes
+FROM 2006_nominees
+GROUP BY state, race
+ORDER BY total_votes DESC;

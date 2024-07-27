@@ -42,17 +42,23 @@ The steps taken for making the dataset included:
 
 
 ### Data Manipulation
+
+#### Categorizing Parties and Ranking Nominees
+
+This query creates a new table for manipulating the data, creating two new values: Category and Standing. The Category value is for grouping the Party value into smaller groups, and Standing is a ranking of each candidate by the race they participated in.
+
+
 ```sql
-CREATE Table Prac AS 
-SELECT Nominee, Party, Gender, State, Region, WiderRegion, Type, Race, Class, Incumbent, Victor, Votes, Share, Total,
-dense_rank() OVER (PARTITION BY Race ORDER BY Votes DESC) AS Standing, Heldby, Hometown, EDay, EYear, YearType, Elast, 
-Final,  CASE
+CREATE Table Manip AS 
+SELECT Nominee, Party, Gender, State, Region, WiderRegion, Type, Race, Class, Incumbent, Victor, Votes, Share, Total, 
+    dense_rank() OVER (PARTITION BY Race ORDER BY Votes DESC) AS Standing, Heldby, Hometown, EDay, EYear, YearType, Elast, 
+    Final, CASE
         WHEN Party IN ('Democratic', 'Democratic-Farmer-Labor', 'Democratic-Nonpartisan League', 'Democratic (Write-In)') THEN 'Democratic Party'
         WHEN Party IN ('Republican', 'Republican (Write-In)') THEN 'Republican Party'
         WHEN Party IN ('Free Libertarian', 'Libertarian') THEN 'Libertarian Party'
-		    when Party in ('Reform') then 'Reform Party'
+        WHEN Party in ('Reform') then 'Reform Party'
         WHEN Party in ('Constitution', 'American Independent', 'American Constitution Party', 'U.S. Taxpayers', 'Independent American') THEN 'Constitution Party'
-		    when Party in ('Green', 'Mountain', 'Pacific Green', 'Independent Green', 'Desert Greens') then 'Green Party'
+        WHEN Party in ('Green', 'Mountain', 'Pacific Green', 'Independent Green', 'Desert Greens') then 'Green Party'
         WHEN Party = 'Conservative' THEN 'Conservative Party'
         WHEN Party IN ('Young Socialist Alliance', 'Communist', 'Socialist Equality', 'Socialist', 'Socialist Labor', 'Peace And Freedom', 'Socialist Workers', 'Liberty Union') THEN 'Socialist Parties'
         WHEN Party IN ('No Party', 'No Party Affiliation', 'Other', 'Nominated by Petition', 'Conneticut for Lieberman', 'Write-In', 'Independent Political Choice', 'No Party Preference', 'Independent', 'Independent Constitutional Candidate', 'Independent Party of Delaware', 'Independence', 'Nonpartisan', 'No Political Party', 'Unaffiliated') THEN 'Independent'
@@ -61,6 +67,33 @@ Final,  CASE
 FROM '2006_nominees' 
 ORDER BY Race, State
 ```
+
+#### Races and Margins
+
+```sql
+-- All the first place nominees per race
+Create Table NRank1 AS SELECT * FROM Manip WHERE Standing = 1;
+
+
+-- All the second place nominees per race
+Create Table NRank2 AS SELECT * FROM Manip WHERE Standing = 2;
+
+-- Making the margins
+Create Table Marg AS SELECT a.Race,  a.Share - b.Share AS Win
+FROM NRank1 a 
+JOIN NRank2 b ON a.Race = b.Race;
+
+-- Joining the tables to the rest of the manipulation table
+Create Table Margined as 
+SELECT row_number() over(order by State, a.Race, Votes desc) Row, Nominee, Party, Gender, State, Region, WiderRegion, Type, a.Race, Class, 
+Incumbent, Victor, Votes, Share, Total, Standing, HeldBy, Hometown, printf('%.2f%%', b.Win) AS Margin, Category, EDay, EYear, YearType, Elast, 
+Final, Special, Runoff
+FROM Manip a
+LEFT JOIN Marg b
+ON b.Race = a.Race;
+```
+
+
 ### Exploratory Data Analysis
 
 EDA for getting a better feel for the datasets, 

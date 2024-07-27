@@ -49,6 +49,7 @@ This query creates a new table for manipulating the data, creating two new value
 
 
 ```sql
+-- Creating a table with the new values with the original data
 CREATE Table Manip AS 
 SELECT Nominee, Party, Gender, State, Region, WiderRegion, Type, Race, Class, Incumbent, Victor, Votes, Share, Total, 
     dense_rank() OVER (PARTITION BY Race ORDER BY Votes DESC) AS Standing, Heldby, Hometown, EDay, EYear, YearType, Elast, 
@@ -69,6 +70,8 @@ ORDER BY Race, State
 ```
 
 #### Races and Margins
+
+The first three queries selects the first and second place nominees from each race, and uses them to find the margin for in said race; the final query joins the main manipulated table with the table made for the margin for each race, and makes numbers them in rows by State, Race and Total Votes
 
 ```sql
 -- All the first place nominees per race
@@ -93,10 +96,26 @@ LEFT JOIN Marg b
 ON b.Race = a.Race;
 ```
 
+#### Joining with the Incumbent Data
 
+Takes the margined table and joins it with the 'incumbent_data' to add the last incumbent, their decision, gender and their tenure to the margined table
+
+```sql
+-- Joins values from both tables
+Create Table FullManipulation as Select Row, Nominee, Party, Gender, State, Region, WiderRegion, Type, a.Race, Class, 
+Incumbent, Victor, Votes, Share, Total, Standing, HeldBy, Hometown, Margin, Category, EDay, EYear,
+YearType, ELast, Final, Special, Runoff, SeatHolder, HolderGender, TermStart, Decision, Days, Rating,
+PVI, PVIR
+FROM Margined a
+left join incumbent_data b
+on a.Race = b.Race;
+```
 ### Exploratory Data Analysis
-
 EDA for getting a better feel for the datasets, 
+
+
+### Data Analysis
+
 
 ```sql
 SELECT state, race, SUM(votes) as total_votes

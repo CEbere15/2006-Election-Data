@@ -111,7 +111,15 @@ left join incumbent_data b
 on a.Race = b.Race;
 ```
 ### Exploratory Data Analysis
-EDA for getting a better feel for the datasets, 
+EDA for getting a better feel for the datasets:
+
+  1. How many different states and territories were represented in the House, Senate and Delegate elections
+```sql
+Select Type, count(distinct State) from '2006_nominees'
+group by Type; 
+```
+  2. 
+
 
 
 ### Data Analysis

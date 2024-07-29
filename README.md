@@ -1,5 +1,28 @@
 # 2006 Congressional Election Data Analysis
 
+## Table of Contents
+
+1. [Summary](#summary)
+2. [Data Sources](#data-sources)
+3. [Tools](#tools)
+   - [Excel](#excel---data-cleaning--preparation)
+   - [DB Browser (SQLite)](#db-browser-sqlite---data-analysis-exploration-and-manipulation)
+   - [Python](#python---data-analysis-and-visualization)
+   - [Tableau](#tableau---data-visualization)
+4. [Dataset Making Process](#dataset-making-process)
+   - [Sources](#sources)
+5. [Data Manipulation](#data-manipulation)
+   - [Categorizing Parties and Ranking Nominees](#categorizing-parties-and-ranking-nominees)
+   - [Races and Margins](#races-and-margins)
+   - [Joining with the Incumbent Data](#joining-with-the-incumbent-data)
+6. [Exploratory Data Analysis](#exploratory-data-analysis)
+   - [SQL](#sql)
+     - [Election Data](#election-data)
+     - [Incumbent Data](#incumbent-data)
+   - [Python](#python)
+7. [Data Analysis](#data-analysis)
+
+
 
 ### Summary
 

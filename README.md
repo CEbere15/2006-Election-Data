@@ -118,7 +118,7 @@ on a.Race = b.Race;
 ##### Election Data
 EDA for getting a better feel for the datasets:
 
-  1. How many different states and territories were represented in the House, Senate and Delegate elections
+  1. How many different states and territories were represented in the House, Senate and Delegate elections?
 ```sql
 Select Type, count(distinct State) from '2006_nominees'
 group by Type; 
@@ -156,10 +156,9 @@ where Race not like '%Sen%' and Race not like '%Special%' and Race not like '%Ru
 group by Choice;
 ```
 
-  3. How many of the incumbents from either chamber were elected by special election or appointed and which were elected normally to their seat
+  3. How many of the incumbents from either chamber were elected by special election or appointed and which were elected normally to their seat?
      
-    ```sql
-    
+```sql    
 -- List of incumbents elected normally and the amount elected by Special Election in the House & Senate
 Select Case when Race like '%Sen%' then 'Senate'
 else 'House' end as Chamber, Case when TermStart like '%01-03%' then 'Elected Normally'
@@ -167,10 +166,37 @@ else 'Elected by Special Election / Appointed' end as Electeds, Count(*)
 from incumbent_data
 where Race not like '%Special%' and Race not like '%Runoff%'
 group by Chamber, Electeds;
-```
 
-  4. 
-  5. n
+```
+  4. What's the percentage of men and women for each chamber when it comes to incumbents?
+  ```sql
+    -- Calculating the amount of men and women incumbents whose seats are up for reelection and then showing the percentage of them
+    WITH DistinctSeatHolders AS (
+    SELECT CASE WHEN Race LIKE '%Sen%' THEN 'Senate' ELSE 'House' END AS Chamber, HolderGender AS Sex, COUNT(DISTINCT SeatHolder) AS DistinctSeatHolders
+    FROM incumbent_data
+    WHERE Race NOT LIKE '%Special%' AND Race NOT LIKE '%Runoff%'
+    GROUP BY CASE 
+            WHEN Race LIKE '%Sen%' THEN 'Senate'
+            ELSE 'House'
+        END, HolderGender
+)
+
+SELECT Chamber, Sex, DistinctSeatHolders,
+printf('%.2f%%', DistinctSeatHolders * 100.0 / SUM(DistinctSeatHolders) OVER (PARTITION BY Chamber)) AS Percent
+FROM DistinctSeatHolders;
+
+
+```
+  5. For each Cook Rating, how many races were rated that by each Chamber
+
+```sql
+-- Select each Cook Rating, and how many races were rated that way
+Select CASE WHEN Race LIKE '%Sen%' THEN 'Senate' ELSE 'House' END AS Chamber, Rating, Count(*) as Races
+from incumbent_data
+where Race not LIKE '%Special%' AND Race NOT LIKE '%Runoff%' 
+group by Chamber, Rating
+order by Chamber, Races desc;
+```
 
 #### Python
 ```py

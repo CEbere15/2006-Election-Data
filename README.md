@@ -142,10 +142,45 @@ EDA for getting a better feel for the datasets:
 Select Type, count(distinct State) from '2006_nominees'
 group by Type; 
 ```
-  2.
-  3.
-  4.
-  5. 
+  2. How many parties had nominees in the Congressional Elections?
+   ```sql
+-- Amount of parties that had nominees in the 2006 Congressional Elections
+Select count(distinct Party) as Parties from '2006_nominees';
+```
+  3. What's the ratio for gender of nominees in each region the race takes place, and by the type of election?
+```sql
+-- Gender distribution of nominees by the type of election and the region
+Select Type, Region, Gender, count(distinct Nominee) as Nominees, 
+printf('%.2f%%', ROUND(COUNT(DISTINCT Nominee) * 100.0 / SUM(COUNT(DISTINCT Nominee)) 
+OVER (PARTITION BY Type, Region), 2)) AS 'Nominee Percent' from '2006_nominees'
+group by Type, Region, Gender
+order by Type desc, Region, Nominees desc;
+```
+  4. Which parties had incumbents lose their reelection bids in the general election, and how many did they lose?
+
+```sql
+-- Amount of Incumbents who lost reelection by Chamber
+Select Type, Party, count(*) as 'Incumbents Lost' from '2006_nominees' 
+where Incumbent = TRUE and Victor = FALSE
+group by Type, Party;
+```
+  5. How many seats did each party hold from the last Congress, in each Chamber?
+```sql
+-- Party strength of previous Congress by chamber
+Select Type, HeldBy, Count(*) as Seats from '2006_nominees'
+where Final = TRUE and Special = FALSE and Victor = TRUE
+group by Type, HeldBy;
+
+```
+  6. How many seats did each party get after these elections?
+
+```sql
+-- Party strength for the next Congress by chamber
+Select Type, Party, Count(*) as Seats from '2006_nominees'
+where Final = TRUE and Special = FALSE and Victor = TRUE
+group by Type, Party;
+
+```
 
 ##### Incumbent Data 
   1. What is the average tenure of Senators up for reelection by the choice and outcome they made for reelection?

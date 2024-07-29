@@ -1,6 +1,6 @@
 # 2006 Congressional Election Data Analysis
 
-## Table of Contents
+### Table of Contents
 
 1. [Summary](#summary)
 2. [Data Sources](#data-sources)

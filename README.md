@@ -111,6 +111,11 @@ left join incumbent_data b
 on a.Race = b.Race;
 ```
 ### Exploratory Data Analysis
+
+#### SQL
+
+
+##### Election Data
 EDA for getting a better feel for the datasets:
 
   1. How many different states and territories were represented in the House, Senate and Delegate elections
@@ -118,9 +123,54 @@ EDA for getting a better feel for the datasets:
 Select Type, count(distinct State) from '2006_nominees'
 group by Type; 
 ```
-  2. 
+  2.
+  3.
+  4.
+  5. 
 
+##### Incumbent Data 
+  1. What is the average tenure of Senators up for reelection by the choice and outcome they made for reelection?
 
+```sql
+-- Average years since the last incumbent Senator was sworn in to their term before Election Day
+Select Case when Decision in ('Reelection (Lost Renomination)', 'Reelection (Lost Renomination; Changed Parties)') then 'Lost Renomination'
+when Decision in ('Resignation (Charges)','Resignation','Resignation (Appointment)') then 'Resigned'
+when Decision in ('Retired (Higher Office)','Retired') then 'Retired'
+when Decision in ('Reelection (Renominated)') then 'Renominated'
+else 'Death' end as Choice, round(avg(days) / 365.25, 2) as 'Average Tenure' from incumbent_data
+where Race like '%Sen%' and Race not like '%Special%' and Race not like '%Runoff%'
+group by Choice;
+```
+
+     
+  2. What is the average tenure of Representatives/Delegates by the choice and outcome they made for reelection?
+
+  ```sql
+-- Average years since the last incumbent Representative or Delegate was sworn in to their term before Election Day
+Select Case when Decision in ('Reelection (Lost Renomination)') then 'Lost Renomination'
+when Decision in ('Resignation (Charges)','Resignation','Resignation (Appointment)') then 'Resigned'
+when Decision in ('Retired (Higher Office)','Retired') then 'Retired'
+when Decision in ('Reelection (Renominated)') then 'Renominated'
+else 'Death' end as Choice, round(avg(days) / 365.25, 2) as 'Average Tenure' from incumbent_data
+where Race not like '%Sen%' and Race not like '%Special%' and Race not like '%Runoff%'
+group by Choice;
+```
+  3. How many of the incumbents from either chamber were elected by special election or appointed and which were elected normally to their seat
+    ```sql
+-- List of incumbents elected normally and the amount elected by Special Election in the House & Senate
+Select Case when Race like '%Sen%' then 'Senate'
+else 'House' end as Chamber, Case when TermStart like '%01-03%' then 'Elected Normally'
+else 'Elected by Special Election / Appointed' end as Electeds, Count(*)
+from incumbent_data
+where Race not like '%Special%' and Race not like '%Runoff%'
+group by Chamber, Electeds;
+  ```
+  4. 
+  5. n
+
+#### Python
+```py
+```
 
 ### Data Analysis
 

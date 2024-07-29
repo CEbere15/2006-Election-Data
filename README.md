@@ -155,9 +155,11 @@ else 'Death' end as Choice, round(avg(days) / 365.25, 2) as 'Average Tenure' fro
 where Race not like '%Sen%' and Race not like '%Special%' and Race not like '%Runoff%'
 group by Choice;
 ```
+
   3. How many of the incumbents from either chamber were elected by special election or appointed and which were elected normally to their seat
      
     ```sql
+    
 -- List of incumbents elected normally and the amount elected by Special Election in the House & Senate
 Select Case when Race like '%Sen%' then 'Senate'
 else 'House' end as Chamber, Case when TermStart like '%01-03%' then 'Elected Normally'

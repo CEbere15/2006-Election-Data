@@ -137,17 +137,40 @@ on a.Race = b.Race;
 ##### Election Data
 EDA for getting a better feel for the datasets:
 
+
+###### Query
+
   1. How many different states and territories were represented in the House, Senate and Delegate elections?
 ```sql
 Select Type, count(distinct State) from '2006_nominees'
 group by Type; 
 ```
+
+###### Visualization
+
+
+
+
+
   2. How many parties had nominees in the Congressional Elections?
+
+     ###### Query
    ```sql
 -- Amount of parties that had nominees in the 2006 Congressional Elections
-Select count(distinct Party) as Parties from '2006_nominees';
+Select Type, count(distinct Party) as Parties from '2006_nominees'
+group by type;
 ```
-  3. What's the ratio for gender of nominees in each region the race takes place, and by the type of election?
+
+
+###### Visualization
+
+
+   ![image](https://github.com/user-attachments/assets/8d2bfcfa-0c70-482c-b45e-84627ea15c71)
+
+
+ 3. What's the ratio for gender of nominees in each region the race takes place, and by the type of election?
+
+###### Query
 ```sql
 -- Gender distribution of nominees by the type of election and the region
 Select Type, Region, Gender, count(distinct Nominee) as Nominees, 
@@ -156,7 +179,14 @@ OVER (PARTITION BY Type, Region), 2)) AS 'Nominee Percent' from '2006_nominees'
 group by Type, Region, Gender
 order by Type desc, Region, Nominees desc;
 ```
+
+###### Visualization
+![image](https://github.com/user-attachments/assets/cab8a479-b47d-41cc-b8fa-27cceb319ff6)
+
+
+
   4. Which parties had incumbents lose their reelection bids in the general election, and how many did they lose?
+###### Query
 
 ```sql
 -- Amount of Incumbents who lost reelection by Chamber
@@ -164,7 +194,18 @@ Select Type, Party, count(*) as 'Incumbents Lost' from '2006_nominees'
 where Incumbent = TRUE and Victor = FALSE
 group by Type, Party;
 ```
+
+
+###### Visualization
+
+![image](https://github.com/user-attachments/assets/584df5bb-e63e-414d-be33-dddcbaad02c4)
+
+
   5. How many seats did each party hold from the last Congress, in each Chamber?
+
+
+###### Query
+
 ```sql
 -- Party strength of previous Congress by chamber
 Select Type, HeldBy, Count(*) as Seats from '2006_nominees'
@@ -172,7 +213,14 @@ where Final = TRUE and Special = FALSE and Victor = TRUE
 group by Type, HeldBy;
 
 ```
+
+###### Visualization
+
+![image](https://github.com/user-attachments/assets/15afaa26-df7f-40d2-b5e9-d2da4fa5148a)
+
+
   6. How many seats did each party get after these elections?
+###### Query
 
 ```sql
 -- Party strength for the next Congress by chamber
@@ -181,6 +229,53 @@ where Final = TRUE and Special = FALSE and Victor = TRUE
 group by Type, Party;
 
 ```
+
+
+###### Visualization
+
+
+![image](https://github.com/user-attachments/assets/f42377a1-44b8-48dd-89ab-07e2a4440ec7)
+
+
+
+
+
+   7. What census division does each state belong to?
+
+###### Query
+
+
+```sql
+-- Each state's census division
+Select Region, State from '2006_nominees'
+group by State;
+```
+
+
+###### Visualization
+
+![image](https://github.com/user-attachments/assets/c7770b2c-e94d-4301-a120-84a3d02392c6)
+
+
+   8. What census region does each state belong to?
+
+###### Query
+
+
+```sql
+-- Each state's census region
+Select WiderRegion, State from '2006_nominees'
+group by State;
+```
+
+
+###### Visualization
+
+![image](https://github.com/user-attachments/assets/affe6e0e-3b28-457d-aa0a-7ce234ced927)
+
+![image](https://github.com/user-attachments/assets/76822fe3-eb21-4b6e-a77d-ef738084f006)
+
+
 
 ##### Incumbent Data 
   1. What is the average tenure of Senators up for reelection by the choice and outcome they made for reelection?

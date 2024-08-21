@@ -2,23 +2,24 @@
 
 ### Table of Contents
 
-1. [Summary](#summary)
-2. [Data Sources](#data-sources)
-3. [Tools](#tools)
-4. [Dataset Making Process](#dataset-making-process)
+1. [Overview](#overview)
+2. [Summary](#summary)
+3. [Data Sources](#data-sources)
+4. [Tools](#tools)
+5. [Dataset Making Process](#dataset-making-process)
    - [Sources](#sources)
-5. [Data Manipulation](#data-manipulation)
+6. [Data Manipulation](#data-manipulation)
    - [Categorizing Parties and Ranking Nominees](#categorizing-parties-and-ranking-nominees)
    - [Races and Margins](#races-and-margins)
    - [Joining with the Incumbent Data](#joining-with-the-incumbent-data)
-6. [Exploratory Data Analysis](#exploratory-data-analysis)
+7. [Exploratory Data Analysis](#exploratory-data-analysis)
    - [SQL](#sql)
      - [Election Data](#election-data)
      - [Incumbent Data](#incumbent-data)
    - [Python](#python)
-7. [Data Analysis](#data-analysis)
+8. [Data Analysis](#data-analysis)
 
-
+## Overview
 
 ### Summary
 

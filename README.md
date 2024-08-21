@@ -61,9 +61,9 @@ The steps taken for making the dataset included:
 - [Library of Congress](https://www.loc.gov/)
 
 
-### Data Manipulation
+## Data Manipulation
 
-#### Categorizing Parties and Ranking Nominees
+### Categorizing Parties and Ranking Nominees
 
 This query creates a new table for manipulating the data, creating two new values: Category and Standing. The Category value is for grouping the Party value into smaller groups, and Standing is a ranking of each candidate by the race they participated in.
 
@@ -89,7 +89,7 @@ FROM '2006_nominees'
 ORDER BY Race, State
 ```
 
-#### Races and Margins
+### Races and Margins
 
 The first three queries selects the first and second place nominees from each race, and uses them to find the margin for in said race; the final query joins the main manipulated table with the table made for the margin for each race, and makes numbers them in rows by State, Race and Total Votes
 
@@ -116,7 +116,7 @@ LEFT JOIN Marg b
 ON b.Race = a.Race;
 ```
 
-#### Joining with the Incumbent Data
+### Joining with the Incumbent Data
 
 Takes the margined table and joins it with the 'incumbent_data' to add the last incumbent, their decision, gender and their tenure to the margined table
 
@@ -130,16 +130,16 @@ FROM Margined a
 left join incumbent_data b
 on a.Race = b.Race;
 ```
-### Exploratory Data Analysis
+## Exploratory Data Analysis
 
-#### SQL
+### SQL
 
 
-##### Election Data
+#### Election Data
 EDA for getting a better feel for the datasets:
 
 
-###### Query
+##### Query
 
   1. How many different states and territories were represented in the House, Senate and Delegate elections?
 ```sql
@@ -147,7 +147,7 @@ Select Type, count(distinct State) from '2006_nominees'
 group by Type; 
 ```
 
-###### Visualization
+##### Visualization
 
 
 
@@ -155,7 +155,7 @@ group by Type;
 
   2. How many parties had nominees in the Congressional Elections?
 
-     ###### Query
+     ##### Query
    ```sql
 -- Amount of parties that had nominees in the 2006 Congressional Elections
 Select Type, count(distinct Party) as Parties from '2006_nominees'
@@ -163,7 +163,7 @@ group by type;
 ```
 
 
-###### Visualization
+##### Visualization
 
 
    ![image](https://github.com/user-attachments/assets/8d2bfcfa-0c70-482c-b45e-84627ea15c71)
@@ -181,13 +181,13 @@ group by Type, Region, Gender
 order by Type desc, Region, Nominees desc;
 ```
 
-###### Visualization
+##### Visualization
 ![image](https://github.com/user-attachments/assets/cab8a479-b47d-41cc-b8fa-27cceb319ff6)
 
 
 
   4. Which parties had incumbents lose their reelection bids in the general election, and how many did they lose?
-###### Query
+##### Query
 
 ```sql
 -- Amount of Incumbents who lost reelection by Chamber
@@ -197,7 +197,7 @@ group by Type, Party;
 ```
 
 
-###### Visualization
+##### Visualization
 
 ![image](https://github.com/user-attachments/assets/584df5bb-e63e-414d-be33-dddcbaad02c4)
 
@@ -205,7 +205,7 @@ group by Type, Party;
   5. How many seats did each party hold from the last Congress, in each Chamber?
 
 
-###### Query
+##### Query
 
 ```sql
 -- Party strength of previous Congress by chamber
@@ -215,13 +215,13 @@ group by Type, HeldBy;
 
 ```
 
-###### Visualization
+##### Visualization
 
 ![image](https://github.com/user-attachments/assets/15afaa26-df7f-40d2-b5e9-d2da4fa5148a)
 
 
   6. How many seats did each party get after these elections?
-###### Query
+##### Query
 
 ```sql
 -- Party strength for the next Congress by chamber
@@ -232,7 +232,7 @@ group by Type, Party;
 ```
 
 
-###### Visualization
+##### Visualization
 
 
 ![image](https://github.com/user-attachments/assets/f42377a1-44b8-48dd-89ab-07e2a4440ec7)
@@ -243,7 +243,7 @@ group by Type, Party;
 
    7. What census division does each state belong to?
 
-###### Query
+##### Query
 
 
 ```sql
@@ -253,14 +253,14 @@ group by State;
 ```
 
 
-###### Visualization
+##### Visualization
 
 ![image](https://github.com/user-attachments/assets/c7770b2c-e94d-4301-a120-84a3d02392c6)
 
 
    8. What census region does each state belong to?
 
-###### Query
+##### Query
 
 
 ```sql
@@ -270,15 +270,14 @@ group by State;
 ```
 
 
-###### Visualization
+##### Visualization
 
-![image](https://github.com/user-attachments/assets/affe6e0e-3b28-457d-aa0a-7ce234ced927)
 
 ![image](https://github.com/user-attachments/assets/76822fe3-eb21-4b6e-a77d-ef738084f006)
 
 
 
-##### Incumbent Data 
+#### Incumbent Data 
   1. What is the average tenure of Senators up for reelection by the choice and outcome they made for reelection?
 
 ```sql
@@ -348,11 +347,11 @@ group by Chamber, Rating
 order by Chamber, Races desc;
 ```
 
-#### Python
+### Python
 ```py
 ```
 
-### Data Analysis
+## Data Analysis
 
 
 ```sql

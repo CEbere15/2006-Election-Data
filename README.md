@@ -43,11 +43,10 @@ This data project was made with the goal of gaining insights into the performanc
 Nominee Data: The primary dataset used for the analysis is in the '2006_nominees.csv' file, which has all the nominees for the congressional elections, whether they are the incumbent, the race that they participated in, their vote share, along with information on which party they are affiliated with, what party the seat their contesting belongs to, and more.
 
 Incumbent Data: A secondary dataset that for the analysis is in 'incumbent_data.csv' file, which shows who the most recent seat holder is for each race, when their term started, their decision in the upcoming election, and the partisan ratings for their contest. 
-### Data Dictionary
+
 </br>
 
-
-
+### Data Dictionary
 #### 2006 Nominees
 
 
@@ -79,20 +78,27 @@ Incumbent Data: A secondary dataset that for the analysis is in 'incumbent_data.
 | `Special`      | Boolean  | Whether this race is a special election.|
 | `Runoff`      | Boolean  | Whether this race is a runoff to figure out the final winner.|
 
+</br>
+
 
 #### Incumbents
 
 
 | Column       | Data Type       | Description                                                                      |
 |-------------------|-------------|-----------------------------------------------------------------------------|
-| `Nom.ID`      | Text     | The index for the nominees.        |
-| `Nominee`    | 	Text | The name of the nominee.     |
-| `Party`| Text | Name of the main party that the nominee is the nominee of.|
-|`Gender`| Text | The gender of the nominee.|
-| `State`      | Text     | The state that the nominee's race is being contested in.  |
-| `Region`| Text | Region denoting which Census designated division the state is located in .|
-| `Wider Region` | Text     | Region denoting which Census designated region the state is located in.           |
-| `Type`      | Text     | The type of seat being contested (i.e. House, Senate, Delegate).|
+| `Race`      | Text     | Constituency that the last incumbent represented.        |
+| `SeatHolder`    | 	Text | The last person to hold the seat.     |
+| `HolderGender`| Text | Gender of the last person to hold the seat.|
+|`TermStart`| Datetime | The day that the incumbent was sworn into Congress.|
+| `Decision`      | Text     | The incumbent's decision and outcome coming into the next election.  |
+| `Days`| Integer | The amount of days since the incumbent was sworn in and election day.|
+| `Rating` | Text     | The rating given to the seat by Cook Political Report.  |
+| `PVI`      | Text     | The Cook Partisan Voting Index category given to the seat.|
+| `PVIR`      | Integer     | The Cook Partisan Voting Index rating given to the seat.|
+| `Original`      | Text     | Whether this election was the first (non-special or a runoff).|
+
+</br>
+
 
 
 
@@ -141,6 +147,10 @@ SELECT Nominee, Party, Gender, State, Region, WiderRegion, Type, Race, Class, In
 FROM '2006_nominees' 
 ORDER BY Race, State
 ```
+</br>
+
+
+
 
 ### Races and Margins
 
@@ -168,6 +178,7 @@ FROM Manip a
 LEFT JOIN Marg b
 ON b.Race = a.Race;
 ```
+</br>
 
 ### Joining with the Incumbent Data
 
@@ -183,6 +194,10 @@ FROM Margined a
 left join incumbent_data b
 on a.Race = b.Race;
 ```
+
+</br>
+
+
 ## Exploratory Data Analysis
 
 ### SQL
@@ -403,6 +418,11 @@ order by Chamber, Races desc;
 ### Python
 ```py
 ```
+
+
+
+</br>
+
 
 ## Data Analysis
 

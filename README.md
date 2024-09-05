@@ -25,14 +25,6 @@
 
 This data project was made with the goal of gaining insights into the performances of each party, nominee in the 2006 Congressional Elections, depending on their state, region, incumbency, gender, the type of congressional seat being contested (Senate, House of Representatives, Delegate), and district partisanship. Through analyzing each nominee, in each race, one is able to identify the overall trends that the country had when it came to voting in these elections.
 
-
-### Data Sources
-
-Nominee Data: The primary dataset used for the analysis is in the '2006_nominees.csv' file, which has all the nominees for the congressional elections, whether they are the incumbent, the race that they participated in, their vote share, along with information on which party they are affiliated with, what party the seat their contesting belongs to, and more.
-
-Incumbent Data: A secondary dataset that for the analysis is in 'incumbent_data.csv' file, which shows who the most recent seat holder is for each race, when their term started, their decision in the upcoming election, and the partisan ratings for their contest. 
-
-
 ### Tools
 - Excel - Data Cleaning / Preperation
   - Used to compile datasets from multiple sources and organize them in worksheets.
@@ -42,6 +34,67 @@ Incumbent Data: A secondary dataset that for the analysis is in 'incumbent_data.
   - Employed to create charts and visualizations that would be challenging to produce in Tableau, along with performing statistical analyses to understand how variables might have affected the number of votes.
 - Tableau - Data Visualization
   - Utilized for visualizing the dataset.
+
+</br>
+
+    
+## Data Sources
+
+Nominee Data: The primary dataset used for the analysis is in the '2006_nominees.csv' file, which has all the nominees for the congressional elections, whether they are the incumbent, the race that they participated in, their vote share, along with information on which party they are affiliated with, what party the seat their contesting belongs to, and more.
+
+Incumbent Data: A secondary dataset that for the analysis is in 'incumbent_data.csv' file, which shows who the most recent seat holder is for each race, when their term started, their decision in the upcoming election, and the partisan ratings for their contest. 
+### Data Dictionary
+</br>
+
+
+
+#### 2006 Nominees
+
+
+| Column       | Data Type       | Description                                                                      |
+|-------------------|-------------|-----------------------------------------------------------------------------|
+| `Nom.ID`      | Text     | The index for the nominees.        |
+| `Nominee`    | 	Text | The name of the nominee.     |
+| `Party`| Text | Name of the main party that the nominee is the nominee of.|
+|`Gender`| Text | The gender of the nominee.|
+| `State`      | Text     | The state that the nominee's race is being contested in.  |
+| `Region`| Text | Region denoting which Census designated division the state is located in .|
+| `Wider Region` | Text     | Region denoting which Census designated region the state is located in.           |
+| `Type`      | Text     | The type of seat being contested (i.e. House, Senate, Delegate).|
+| `Class` | Text | The Senate class that the seat being contested belongs to.|
+| `Race`      | Text     | The seat code for the race that is being contested.|
+| `Incumbent`      | Boolean  | Whether the nominee is an incumbent for that constituency being contested.|
+| `Victor`      | Boolean  | Whether the nominee won the race, or made it to the runoff.|
+| `Incumbent`      | Boolean  | Whether the nominee is an incumbent for that constituency being contested.|
+| `Votes`      | Integer     | The amount of votes the nominee won in the race.|
+| `Share`      | Text     | The share of the votes that the nominee won.|
+| `Total`      | Integer     | The total votes casted for the race.|
+| `HeldBy`      | Text     | The party that holds the seat being contested.|
+| `Hometown`      | Text     | The city and state where the nominee is registered to live in.|
+| `EDay`      | Datetime     | The date in which the election took place.|
+| `EYear`      | Integer     | The election year that the election took place in.|
+| `YearType`      | Text     | The type of election year the race took place in (i.e. Midterm or Presidential).|
+| `Elast`      | Datetime     | The last time the constituency had an election.|
+| `Final`      | Boolean  | Whether the result is the final one, or if there is a runoff after.|
+| `Special`      | Boolean  | Whether this race is a special election.|
+| `Runoff`      | Boolean  | Whether this race is a runoff to figure out the final winner.|
+
+
+#### Incumbents
+
+
+| Column       | Data Type       | Description                                                                      |
+|-------------------|-------------|-----------------------------------------------------------------------------|
+| `Nom.ID`      | Text     | The index for the nominees.        |
+| `Nominee`    | 	Text | The name of the nominee.     |
+| `Party`| Text | Name of the main party that the nominee is the nominee of.|
+|`Gender`| Text | The gender of the nominee.|
+| `State`      | Text     | The state that the nominee's race is being contested in.  |
+| `Region`| Text | Region denoting which Census designated division the state is located in .|
+| `Wider Region` | Text     | Region denoting which Census designated region the state is located in.           |
+| `Type`      | Text     | The type of seat being contested (i.e. House, Senate, Delegate).|
+
+
 
 
 ### Dataset Making Process
